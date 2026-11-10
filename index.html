@@ -1,0 +1,578 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Doug Lin 個人技術盤點：量化交易策略研究、全端開發、AI 生成應用、嵌入式硬體與 DevOps 的專長與作品實績。">
+<meta name="color-scheme" content="light">
+<meta property="og:type" content="profile">
+<meta property="og:title" content="Doug Lin 技術盤點">
+<meta property="og:description" content="Doug Lin 個人技術盤點：量化交易策略研究、全端開發、AI 生成應用、嵌入式硬體與 DevOps 的專長與作品實績。">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%88%3C/text%3E%3C/svg%3E">
+<title>Doug Lin 技術盤點</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
+<style>
+:root{
+  --navy:#16233F;
+  --navy-2:#0E1830;
+  --navy-3:#24355A;
+  --blue:#2A6FB8;
+  --blue-soft:#EAF2FA;
+  --sky:#5AB0F2;
+  --ground:#F5F7FA;
+  --card:#FFFFFF;
+  --ink:#1B2432;
+  --ink-2:#596579;
+  --ink-3:#8A94A6;
+  --line:#E3E8EF;
+  --amber:#B4740E;
+  --slate:#6B7688;
+  --sans:"Noto Sans TC",system-ui,-apple-system,"Microsoft JhengHei",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Consolas,monospace;
+  --shadow:0 1px 2px rgba(22,35,63,.04),0 8px 24px rgba(22,35,63,.07);
+  --shadow-lg:0 2px 4px rgba(22,35,63,.05),0 18px 44px rgba(22,35,63,.11);
+}
+*{box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.85}
+h1,h2,h3,h4{margin:0;text-wrap:balance;letter-spacing:.01em}
+p{margin:0}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+.wrap{max-width:1200px;margin:0 auto;padding:0 clamp(18px,3.5vw,40px)}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+/* ============ 頂部選單 ============ */
+.nav{
+  position:sticky;top:0;z-index:50;background:var(--card);
+  border-bottom:1px solid var(--line);box-shadow:0 1px 10px rgba(22,35,63,.05);
+}
+.nav .wrap{display:flex;align-items:center;gap:clamp(14px,2.4vw,30px);height:66px}
+.brand{display:flex;align-items:center;gap:14px;text-decoration:none;flex:none}
+.mark{
+  width:36px;height:36px;border-radius:50%;background:var(--navy);color:#fff;flex:none;
+  display:grid;place-items:center;font-weight:900;font-size:13px;letter-spacing:.04em;
+}
+.brand b{font-size:17px;font-weight:900;letter-spacing:.06em;color:var(--navy)}
+.brand i{width:1px;height:20px;background:var(--line);display:block}
+.brand s{text-decoration:none;font-size:12px;color:var(--ink-3);letter-spacing:.06em}
+.nav nav{display:flex;gap:clamp(12px,1.9vw,26px);margin-left:auto;flex-wrap:wrap}
+.nav nav a{
+  text-decoration:none;font-size:14.5px;font-weight:500;color:var(--ink-2);
+  padding:6px 2px;border-bottom:2px solid transparent;transition:color .2s,border-color .2s;
+}
+.nav nav a:hover{color:var(--blue);border-bottom-color:var(--blue)}
+@media (max-width:720px){
+  .nav .wrap{height:auto;padding-top:12px;padding-bottom:12px;flex-wrap:wrap}
+  .brand i,.brand s{display:none}
+  .nav nav{width:100%;margin-left:0;justify-content:space-between;gap:8px}
+  .nav nav a{font-size:13.5px}
+}
+
+/* ============ 首屏 ============ */
+.hero{position:relative;background:var(--navy-2);overflow:hidden;min-height:clamp(430px,58vh,540px);display:grid;align-items:center}
+.hero canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.hero .veil{
+  position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(88% 120% at 50% 42%,rgba(14,24,48,.26),rgba(14,24,48,.82) 76%),
+    linear-gradient(180deg,rgba(14,24,48,.9),transparent 26%,transparent 62%,rgba(14,24,48,.92));
+}
+.hero .wrap{position:relative;text-align:center;padding-top:62px;padding-bottom:62px}
+.hero .tag{
+  display:inline-block;font-family:var(--mono);font-size:11.5px;letter-spacing:.26em;
+  text-transform:uppercase;color:#9FC4E8;border:1px solid rgba(159,196,232,.38);
+  border-radius:999px;padding:5px 16px;
+}
+.hero h1{
+  color:#fff;font-weight:900;font-size:clamp(28px,4.6vw,52px);line-height:1.34;
+  margin:26px 0 0;letter-spacing:.04em;text-shadow:0 2px 22px rgba(0,0,0,.34);
+}
+.hero h1 em{font-style:normal;color:var(--sky)}
+.hero .sub{
+  color:#CBD8EA;font-size:clamp(14.5px,1.5vw,17px);line-height:2.05;
+  margin:22px auto 0;max-width:40rem;text-shadow:0 1px 14px rgba(0,0,0,.4);
+}
+.hero .sub b{color:#fff;font-weight:700}
+.hero .cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:34px}
+.btn{
+  display:inline-flex;align-items:center;gap:9px;text-decoration:none;
+  font-size:14.5px;font-weight:700;letter-spacing:.06em;padding:13px 30px;border-radius:6px;
+  transition:transform .2s,box-shadow .2s,background .2s;
+}
+.btn.solid{background:var(--blue);color:#fff;box-shadow:0 8px 22px rgba(42,111,184,.36)}
+.btn.solid:hover{background:#3480cf;transform:translateY(-2px)}
+.btn.ghost{border:1px solid rgba(255,255,255,.4);color:#fff}
+.btn.ghost:hover{background:rgba(255,255,255,.1);transform:translateY(-2px)}
+.hero .key{
+  position:relative;display:flex;flex-wrap:wrap;justify-content:center;gap:6px 22px;
+  margin-top:40px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:#8FA5C4;
+}
+.hero .key span{display:inline-flex;align-items:center;gap:7px}
+.hero .key u{text-decoration:none;width:15px;border-top:1px solid currentColor;display:inline-block}
+.hero .key .s{color:var(--sky)}
+.hero .key .s u{border-top-width:2px}
+
+/* ============ 區段共用 ============ */
+.sec{padding:clamp(54px,7vw,88px) 0}
+.sec.alt{background:var(--card);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.sec-head{margin-bottom:clamp(26px,3.4vw,40px)}
+.sec-head .kicker{
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--blue);display:flex;align-items:center;gap:10px;
+}
+.sec-head .kicker::before{content:"";width:26px;height:2px;background:var(--blue)}
+.sec-head h2{font-size:clamp(24px,3vw,33px);font-weight:900;letter-spacing:.06em;margin-top:12px}
+.sec-head p{color:var(--ink-2);margin-top:10px;max-width:46rem;font-size:14.5px}
+
+/* ============ 關於 ============ */
+.about{display:grid;grid-template-columns:minmax(0,.84fr) minmax(0,1.16fr);gap:clamp(20px,3vw,36px);align-items:stretch}
+.about .panel{
+  background:linear-gradient(160deg,var(--navy) 0%,var(--navy-3) 100%);
+  border-radius:12px;padding:clamp(26px,3vw,38px);color:#fff;box-shadow:var(--shadow-lg);
+  display:flex;flex-direction:column;
+}
+.about .panel .mono{width:62px;height:62px;border-radius:50%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);display:grid;place-items:center;font-weight:900;font-size:19px;letter-spacing:.05em}
+.about .panel h3{font-size:21px;font-weight:900;letter-spacing:.08em;margin-top:22px}
+.about .panel .job{color:#9FC4E8;font-size:13.5px;letter-spacing:.1em;margin-top:6px}
+.about .panel ul{list-style:none;margin:26px 0 0;padding:0;display:grid;gap:11px}
+.about .panel li{display:flex;align-items:center;gap:11px;font-size:14px;color:#D9E4F2}
+.about .panel li::before{content:"";width:5px;height:5px;background:var(--sky);border-radius:50%;flex:none}
+.about .body{background:var(--card);border-radius:12px;padding:clamp(26px,3vw,40px);box-shadow:var(--shadow);border:1px solid var(--line)}
+.about .body h3{font-size:clamp(19px,2.2vw,25px);font-weight:900;line-height:1.6;letter-spacing:.04em}
+.about .body h3 em{font-style:normal;color:var(--blue)}
+.about .body p{color:var(--ink-2);margin-top:18px;font-size:14.5px}
+.about .body .pts{display:grid;gap:12px;margin-top:24px;padding-top:24px;border-top:1px solid var(--line)}
+.about .body .pts div{display:flex;gap:13px;align-items:flex-start;font-size:14px}
+.about .body .pts b{flex:none;font-family:var(--mono);font-size:11px;font-weight:500;color:var(--blue);background:var(--blue-soft);border-radius:4px;padding:3px 9px;margin-top:4px}
+@media (max-width:880px){.about{grid-template-columns:1fr}}
+
+/* ============ 數據 ============ */
+.stats{
+  background:var(--card);border-radius:12px;box-shadow:var(--shadow);border:1px solid var(--line);
+  display:grid;grid-template-columns:repeat(4,1fr);overflow:hidden;
+}
+.stats>div{padding:clamp(24px,3vw,36px) clamp(16px,2vw,28px);text-align:center;border-left:1px solid var(--line)}
+.stats>div:first-child{border-left:0}
+.stats .n{font-size:clamp(28px,3.6vw,44px);font-weight:900;color:var(--navy);line-height:1.15;letter-spacing:-.01em;font-variant-numeric:tabular-nums;white-space:nowrap}
+.stats .n u{text-decoration:none;font-size:.4em;font-weight:700;color:var(--blue);margin-left:5px}
+.stats .l{font-size:13px;color:var(--ink-2);margin-top:10px}
+@media (max-width:760px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .stats>div:nth-child(odd){border-left:0}
+  .stats>div:nth-child(n+3){border-top:1px solid var(--line)}
+}
+
+/* ============ 專長卡 ============ */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:clamp(18px,2.2vw,26px)}
+.card{
+  background:var(--card);border:1px solid var(--line);border-radius:12px;
+  padding:clamp(24px,2.6vw,32px);box-shadow:var(--shadow);
+  display:flex;flex-direction:column;transition:transform .25s ease,box-shadow .25s ease;
+}
+.card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+.card .ic{width:44px;height:44px;border-radius:9px;background:var(--blue-soft);display:grid;place-items:center;color:var(--blue)}
+.card .ic svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.card h3{font-size:18.5px;font-weight:900;letter-spacing:.05em;margin-top:18px}
+.card .lede{color:var(--ink-2);font-size:14px;margin-top:11px}
+.card .stack{display:flex;flex-wrap:wrap;gap:7px;margin:20px 0 0;padding:0;list-style:none}
+.card .stack li{font-family:var(--mono);font-size:11px;color:var(--ink-2);background:var(--ground);border:1px solid var(--line);border-radius:4px;padding:3px 9px}
+.card .proof{margin-top:auto;padding-top:22px;display:flex;align-items:center;gap:16px}
+.card .proof .n{font-size:34px;font-weight:900;color:var(--blue);line-height:1;font-variant-numeric:tabular-nums;flex:none}
+.card .proof .n small{font-size:.42em;margin-left:3px}
+.card .proof p{font-size:12.5px;color:var(--ink-2);line-height:1.7;border-left:1px solid var(--line);padding-left:16px}
+.card .proof b{font-weight:700;color:var(--ink)}
+
+/* ============ 作品 ============ */
+.group{margin-top:clamp(28px,3.4vw,42px)}
+.group:first-of-type{margin-top:0}
+.group h3{
+  font-size:16px;font-weight:900;letter-spacing:.12em;color:var(--navy);
+  display:flex;align-items:center;gap:13px;margin-bottom:18px;
+}
+.group h3::after{content:"";flex:1;height:1px;background:var(--line)}
+.works{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:clamp(16px,2vw,22px);list-style:none;padding:0;margin:0}
+.works li{
+  background:var(--card);border:1px solid var(--line);border-radius:10px;padding:22px 24px 24px;
+  box-shadow:var(--shadow);transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease;
+  border-top:3px solid var(--blue);
+}
+.works li.closed{border-top-color:var(--slate)}
+.works li.hold{border-top-color:var(--amber)}
+.works li:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+.works .t{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.works .t strong{font-size:15.5px;font-weight:900;letter-spacing:.03em}
+.works p{margin-top:9px;color:var(--ink-2);font-size:13.5px;line-height:1.8}
+.works p b{font-weight:700;color:var(--ink)}
+.chip{font-size:11px;font-weight:700;letter-spacing:.08em;padding:2px 9px;border-radius:999px;white-space:nowrap}
+.chip.live{color:var(--blue);background:var(--blue-soft)}
+.chip.closed{color:var(--slate);background:#EEF0F4}
+.chip.hold{color:var(--amber);background:#FBF3E3}
+
+/* ============ 頁尾 ============ */
+footer{background:var(--navy);color:#AFC0D8;padding:46px 0 40px;font-size:13px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:20px 36px;align-items:center}
+footer .fb{display:flex;align-items:center;gap:13px;color:#fff}
+footer .fb b{font-size:16px;font-weight:900;letter-spacing:.07em}
+footer .legend{display:flex;gap:18px;flex-wrap:wrap;margin-left:auto;font-size:12px}
+footer .legend span{display:inline-flex;align-items:center;gap:7px}
+footer .legend i{width:9px;height:3px;border-radius:2px;display:inline-block;flex:none}
+.sw-live{background:var(--sky)}
+.sw-closed{background:#8894A8}
+.sw-hold{background:#E0A63C}
+footer .upd{width:100%;border-top:1px solid rgba(255,255,255,.12);padding-top:18px;font-size:12px;color:#8396B2}
+
+/* ============ 載入 ============ */
+.rise{animation:rise .85s cubic-bezier(.2,.75,.2,1) both}
+.d1{animation-delay:.05s}.d2{animation-delay:.15s}.d3{animation-delay:.26s}.d4{animation-delay:.37s}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){
+  .rise{animation:none}
+  .card,.works li,.btn{transition:none}
+}
+</style>
+<style>html{color-scheme:light}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="#top">
+      <span class="mark">DL</span>
+      <b>Doug Lin</b>
+      <i></i>
+      <s>全端工程師 ／ 量化策略研究</s>
+    </a>
+    <nav>
+      <a href="#about">關於我</a>
+      <a href="#skill">專長領域</a>
+      <a href="#work">作品實績</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero" id="top">
+  <canvas id="fan" aria-label="蒙地卡羅模擬：淡色線為隨機進場的權益曲線，亮藍線為必須勝過其 P95 的策略"></canvas>
+  <div class="veil"></div>
+  <div class="wrap">
+    <span class="tag rise d1">個人技術盤點 · 2026</span>
+    <h1 class="rise d2">一個人，把想法做成<em>真的能上線</em>的東西</h1>
+    <p class="sub rise d3">從幫人賺錢的<b>自動交易程式</b>、公司天天在用的<b>網站和手機 App</b>，<br>到 <b>AI 繪圖、電腦講話、會發聲的小機器</b>，我都能從零做到交付。</p>
+    <div class="cta rise d4">
+      <a class="btn solid" href="#work">查看作品實績</a>
+      <a class="btn ghost" href="#skill">專長領域</a>
+    </div>
+    <div class="key rise d4">
+      <span><u></u>隨機進場 160 條／輪</span>
+      <span>虛線 P5／P95 區間</span>
+      <span class="s"><u></u>有 edge 的策略</span>
+      <span>累計模擬 <b id="ct">0</b> 條</span>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="about">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">About</div>
+      <h2>關於我</h2>
+    </div>
+    <div class="about">
+      <div class="panel">
+        <div class="mono">DL</div>
+        <h3>Doug Lin</h3>
+        <div class="job">全端工程師 ／ 量化策略研究</div>
+        <ul>
+          <li>量化交易策略研究</li>
+          <li>回測引擎除錯與統計驗證</li>
+          <li>全端網站與行動 App</li>
+          <li>AI 與生成式應用</li>
+          <li>嵌入式硬體</li>
+          <li>DevOps 與雲端</li>
+        </ul>
+      </div>
+      <div class="body">
+        <h3>橫跨<em>量化交易、全端開發、AI 與硬體</em>，一條產線自己從頭顧到尾</h3>
+        <p>日常同時維護正式環境的交易策略產線、四個社群系統產品的前後端，以及自己機器上跑得動的 AI 生成與語音管線。不只做出能 demo 的原型，而是做到有人每天在用、出事要自己救的程度。</p>
+        <div class="pts">
+          <div><b>證據優先</b><span>有原始碼就讀原始碼找根因，不靠黑箱測試歸納行為。</span></div>
+          <div><b>窮盡再結論</b><span>說「做不出來」之前，必須有實測掃參的結果撐著。</span></div>
+          <div><b>交付導向</b><span>以能上線、能被接手、能長期維護為完成標準。</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec alt">
+  <div class="wrap">
+    <div class="stats">
+      <div><div class="n">94<u>支</u></div><div class="l">正式站上線策略</div></div>
+      <div><div class="n">87,996<u>次</u></div><div class="l">單一標的回測次數</div></div>
+      <div><div class="n">439<u>檔</u></div><div class="l">全市場實測標的</div></div>
+      <div><div class="n">79<u>個</u></div><div class="l">維護中程式庫</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="skill">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">Capability</div>
+      <h2>專長領域</h2>
+      <p>六個領域、各自有可查證的實績，不是履歷上的關鍵字列表。</p>
+    </div>
+    <div class="cards">
+
+      <article class="card">
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M3 17l5-6 4 4 5-8 4 5"/><path d="M3 21h18"/></svg></div>
+        <h3>量化交易策略研究</h3>
+        <p class="lede">從訊號假設、回測、閘門驗收，到正式站上線與風險配權的完整產線。</p>
+        <ul class="stack"><li>策略腳本 DSL</li><li>Python</li><li>Go</li><li>TradingView Pine</li><li>回測平台 API</li></ul>
+        <div class="proof"><span class="n">94<small>支</small></span><p>策略在正式站運作，另有 <b>36</b> 支高勝率策略以風險平價配權組成加權組合。</p></div>
+      </article>
+
+      <article class="card">
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M9 4l-5 8 5 8"/><path d="M15 4l5 8-5 8"/></svg></div>
+        <h3>回測引擎除錯與統計驗證</h3>
+        <p class="lede">有原始碼就讀原始碼找根因；本地、測試站、正式站三方對帳。</p>
+        <ul class="stack"><li>Rust ／ Go 原始碼</li><li>序列模擬</li><li>隨機進場基準線</li><li>選擇偏差校正</li></ul>
+        <div class="proof"><span class="n">18<small>支</small></span><p>策略受害於同一個引擎 bug — 60 分鐘週期被靜默退回日線資料，由原始碼比對揪出。</p></div>
+      </article>
+
+      <article class="card">
+        <div class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+        <h3>全端網站與行動 App</h3>
+        <p class="lede">社群管理與餐飲系統的前端、後端 API、排程服務到 App 上架，一條線自己顧。</p>
+        <ul class="stack"><li>AngularJS</li><li>Angular 8</li><li>React 19</li><li>ASP.NET Core</li><li>EF Core</li><li>Cordova</li></ul>
+        <div class="proof"><span class="n">11<small>個</small></span><p>長期維護的產品：<b>4</b> 個 Web、<b>3</b> 個雙平台 App、<b>4</b> 組 API 與排程，含三語系在地化。</p></div>
+      </article>
+
+      <article class="card">
+        <div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2.2 2.2M16.8 16.8L19 19M19 5l-2.2 2.2M7.2 16.8L5 19"/></svg></div>
+        <h3>AI 與生成式應用</h3>
+        <p class="lede">挑能在自己機器上跑得動、而且交得出成品的那一段，不停在 demo。</p>
+        <ul class="stack"><li>SDXL ／ ComfyUI</li><li>LoRA 訓練</li><li>GPT-SoVITS</li><li>sherpa-onnx</li><li>LLM Agent</li></ul>
+        <div class="proof"><span class="n">3<small>條</small></span><p>本機跑通的生成管線：角色一致插畫、台灣腔語音合成、語音助理雙向串流。</p></div>
+      </article>
+
+      <article class="card">
+        <div class="ic"><svg viewBox="0 0 24 24"><rect x="7" y="7" width="10" height="10" rx="1.5"/><path d="M10 3v4M14 3v4M10 17v4M14 17v4M3 10h4M3 14h4M17 10h4M17 14h4"/></svg></div>
+        <h3>嵌入式硬體</h3>
+        <p class="lede">從麵包板接線、音訊輸出到無線燒錄與手機設定頁，做成能拿在手上的東西。</p>
+        <ul class="stack"><li>ESP32</li><li>PlatformIO</li><li>I2S 音訊</li><li>NFC 讀卡</li><li>OTA 更新</li></ul>
+        <div class="proof"><span class="n">5/5</span><p>人臉辨識打卡實機活體檢測全數通過，相似度 <b>0.80</b> 以上；故事音樂盒已可無線更新。</p></div>
+      </article>
+
+      <article class="card">
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M6.5 18A4.5 4.5 0 015.6 9a6 6 0 0111.6-1.4A4 4 0 0118 18z"/><path d="M12 12v5M9.6 14.2L12 11.8l2.4 2.4"/></svg></div>
+        <h3>DevOps 與雲端</h3>
+        <p class="lede">容器編排、CI/CD、自架 Runner 到正式機部署腳本，開發到上線的管線自己架。</p>
+        <ul class="stack"><li>Docker Compose</li><li>GitLab CI/CD</li><li>GCP ／ k8s</li><li>PostgreSQL</li><li>InfluxDB</li></ul>
+        <div class="proof"><span class="n">79<small>個</small></span><p>程式庫每日自動同步；自架 GitLab Runner 與正式環境一鍵部署流程。</p></div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<section class="sec alt" id="work">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">Selected Work</div>
+      <h2>作品實績</h2>
+      <p>含已收線與被自己證偽的研究 — 做不出來也是結論，而且有數據。</p>
+    </div>
+
+    <div class="group">
+      <h3>量化交易</h3>
+      <ul class="works">
+        <li><div class="t"><strong>量化策略自動化產線</strong><span class="chip live">運作中</span></div>
+          <p>從指標搜索、參數掃描、閘門驗收到上架的自動化產線，目前 <b>94</b> 支策略在正式站運行。</p></li>
+        <li><div class="t"><strong>高勝率策略線</strong><span class="chip live">運作中</span></div>
+          <p><b>36</b> 支策略穩定運作，以風險平價配權組成加權組合上線。</p></li>
+        <li><div class="t"><strong>期貨自動轉倉快訊</strong><span class="chip live">運作中</span></div>
+          <p><b>11</b> 個商品的轉倉訊號，第十二版重寫後接自家後台接收端。</p></li>
+        <li class="closed"><div class="t"><strong>台股當沖策略池</strong><span class="chip closed">已收線</span></div>
+          <p><b>23</b> 檔標的、<b>111</b> 個指標、<b>87,996</b> 次回測，結論是交易頻率門檻與正期望值互斥。</p></li>
+        <li class="closed"><div class="t"><strong>外部指標預測力驗證</strong><span class="chip closed">已證偽</span></div>
+          <p>當日描述準確度相關性高達 <b>+0.48</b>，扣掉可用價量重現的部分後，對未來報酬只剩 <b>+0.004</b>。</p></li>
+        <li class="closed"><div class="t"><strong>全市場方向可預測性實測</strong><span class="chip closed">已收線</span></div>
+          <p><b>439</b> 檔個股實測：勝率天花板卡在 53–67%，成本要求卻是 65–73%，缺口全市場均勻。</p></li>
+      </ul>
+    </div>
+
+    <div class="group">
+      <h3>產品開發</h3>
+      <ul class="works">
+        <li><div class="t"><strong>社群管理系統（四產品）</strong><span class="chip live">運作中</span></div>
+          <p>勤務後台、警衛端、住戶 Web、社區管理後台，含對應雙平台 App 與後端 API。</p></li>
+        <li><div class="t"><strong>Android 15 全螢幕顯示修復</strong><span class="chip live">已發布</span></div>
+          <p>以原生安全區量測搭配 JS 注入 CSS 變數，解掉系統列蓋住頁首選單的問題。</p></li>
+        <li><div class="t"><strong>餐飲訂餐系統</strong><span class="chip live">運作中</span></div>
+          <p>Angular 8 前端與 CQRS 架構後端，涵蓋購物與使用者兩端。</p></li>
+        <li><div class="t"><strong>端對端自動化測試</strong><span class="chip live">運作中</span></div>
+          <p>以 Playwright 覆蓋正式站主要流程的回歸測試。</p></li>
+      </ul>
+    </div>
+
+    <div class="group">
+      <h3>AI、硬體與工具</h3>
+      <ul class="works">
+        <li class="hold"><div class="t"><strong>NFC 故事音樂盒</strong><span class="chip hold">開發中</span></div>
+          <p>感應卡片換故事，支援無線燒錄與手機設定頁，正往語音互動角色盒演進。</p></li>
+        <li><div class="t"><strong>人臉辨識打卡</strong><span class="chip live">已驗證</span></div>
+          <p>實機跑完簽到簽退全流程，含活體檢測與相似度門檻調校。</p></li>
+        <li><div class="t"><strong>台灣腔語音合成</strong><span class="chip live">已完成</span></div>
+          <p>男女兩組聲音訓練完成，可產出自然的台灣口音中文語音。</p></li>
+        <li><div class="t"><strong>語音助理串流管線</strong><span class="chip live">已完成</span></div>
+          <p>語音辨識到大型語言模型再到語音合成，雙向串流在本機跑通。</p></li>
+        <li><div class="t"><strong>角色一致性插畫產線</strong><span class="chip live">已完成</span></div>
+          <p>自訓模型鎖定人物外觀，支援多格腳本與中文對白後製疊圖。</p></li>
+        <li><div class="t"><strong>餐廳開放訂位監控</strong><span class="chip live">運作中</span></div>
+          <p>每 <b>5</b> 分鐘輪詢三個來源比對，一有異動就推送通知。</p></li>
+        <li><div class="t"><strong>卡牌合成塔防遊戲</strong><span class="chip live">已上線</span></div>
+          <p>自製關卡與卡牌合成系統，第一批內容已上線。</p></li>
+        <li class="closed"><div class="t"><strong>選擇權獎金回填試算</strong><span class="chip closed">已交付</span></div>
+          <p><b>27</b> 人逐筆還原稅費後的應收金額核算，含帳務來源欄位校正。</p></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="fb"><span class="mark">DL</span><b>Doug Lin</b></div>
+    <div class="legend">
+      <span><i class="sw-live"></i>運作中 ／ 已交付</span>
+      <span><i class="sw-closed"></i>已收線 ／ 已證偽</span>
+      <span><i class="sw-hold"></i>開發中</span>
+    </div>
+    <div class="upd">最後更新 2026-11-10</div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var cvs=document.getElementById('fan'),ctx=cvs.getContext('2d'),ctEl=document.getElementById('ct');
+  var N=160,STEPS=210,VMAX=33,DRIFT=.142;
+  var W=0,H=0,baseY=0,scale=0,paths=null,strat=null,hi=null,lo=null;
+  var total=0,raf=0;
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function walk(drift){
+    var p=new Float32Array(STEPS),v=0;
+    for(var t=1;t<STEPS;t++){v+=drift+(Math.random()*2-1);p[t]=v}
+    return p;
+  }
+  function build(){
+    paths=[];for(var i=0;i<N;i++)paths.push(walk(0));
+    strat=walk(DRIFT);
+    hi=new Float32Array(STEPS);lo=new Float32Array(STEPS);
+    var col=new Float64Array(N);
+    for(var t=0;t<STEPS;t++){
+      for(var j=0;j<N;j++)col[j]=paths[j][t];
+      var s=Array.prototype.slice.call(col).sort(function(a,b){return a-b});
+      hi[t]=s[Math.floor(.95*(N-1))];lo[t]=s[Math.floor(.05*(N-1))];
+    }
+  }
+  function px(t){return 20+t/(STEPS-1)*(W-40)}
+  function py(v){return baseY-v*scale}
+
+  function resize(){
+    var r=cvs.getBoundingClientRect(),d=Math.min(window.devicePixelRatio||1,2);
+    W=Math.max(320,r.width);H=Math.max(240,r.height);
+    cvs.width=W*d;cvs.height=H*d;ctx.setTransform(d,0,0,d,0,0);
+    baseY=H*.62;scale=Math.min(baseY-24,H-baseY-20)/VMAX;
+  }
+  function grid(){
+    ctx.clearRect(0,0,W,H);
+    ctx.lineWidth=1;ctx.setLineDash([]);
+    ctx.strokeStyle='rgba(255,255,255,.05)';
+    for(var i=-3;i<=3;i++){
+      if(!i)continue;
+      var y=py(i*VMAX/3.2);if(y<6||y>H-6)continue;
+      ctx.beginPath();ctx.moveTo(20,y);ctx.lineTo(W-20,y);ctx.stroke();
+    }
+    ctx.strokeStyle='rgba(255,255,255,.17)';
+    ctx.beginPath();ctx.moveTo(20,py(0));ctx.lineTo(W-20,py(0));ctx.stroke();
+  }
+  function seg(k,n){
+    ctx.lineWidth=1;ctx.setLineDash([]);
+    ctx.strokeStyle='rgba(168,199,235,.14)';
+    ctx.beginPath();
+    for(var j=0;j<N;j++){
+      var p=paths[j];
+      for(var t=k;t<Math.min(k+n,STEPS);t++){
+        ctx.moveTo(px(t-1),py(p[t-1]));ctx.lineTo(px(t),py(p[t]));
+      }
+    }
+    ctx.stroke();
+  }
+  function env(upTo){
+    ctx.lineWidth=1;ctx.setLineDash([3,4]);
+    ctx.strokeStyle='rgba(203,219,239,.5)';
+    [hi,lo].forEach(function(a){
+      ctx.beginPath();ctx.moveTo(px(0),py(a[0]));
+      for(var t=1;t<upTo;t++)ctx.lineTo(px(t),py(a[t]));
+      ctx.stroke();
+    });
+    ctx.setLineDash([]);
+  }
+  function line(upTo){
+    ctx.save();
+    ctx.shadowColor='rgba(90,176,242,.8)';ctx.shadowBlur=14;
+    ctx.strokeStyle='#5AB0F2';ctx.lineWidth=2.2;ctx.lineJoin='round';
+    ctx.beginPath();ctx.moveTo(px(0),py(strat[0]));
+    for(var t=1;t<upTo;t++)ctx.lineTo(px(t),py(strat[t]));
+    ctx.stroke();
+    ctx.restore();
+    if(upTo>=STEPS){
+      var x=px(STEPS-1),y=py(strat[STEPS-1]);
+      ctx.fillStyle='#5AB0F2';
+      ctx.beginPath();ctx.arc(x,y,3.4,0,6.284);ctx.fill();
+    }
+  }
+  function still(){
+    grid();seg(1,STEPS);env(STEPS);line(STEPS);
+    total+=N;ctEl.textContent=total.toLocaleString('en-US');
+  }
+
+  var k=1,stage=0,hold=0,fade=0;
+  function tick(){
+    if(stage===0){
+      seg(k,4);k+=4;
+      if(k>=STEPS){stage=1;k=2}
+    }else if(stage===1){
+      env(k);k+=9;
+      if(k>=STEPS){stage=2;k=2}
+    }else if(stage===2){
+      line(k);k+=6;
+      if(k>=STEPS){line(STEPS);stage=3;hold=0;total+=N;ctEl.textContent=total.toLocaleString('en-US')}
+    }else if(stage===3){
+      if(++hold>170){stage=4;fade=0}
+    }else{
+      ctx.fillStyle='rgba(14,24,48,.15)';ctx.fillRect(0,0,W,H);
+      if(++fade>26){build();grid();k=1;stage=0}
+    }
+    raf=requestAnimationFrame(tick);
+  }
+
+  function start(){
+    resize();build();
+    if(reduce){still();return}
+    grid();k=1;stage=0;cancelAnimationFrame(raf);raf=requestAnimationFrame(tick);
+  }
+
+  var rt;
+  window.addEventListener('resize',function(){
+    clearTimeout(rt);rt=setTimeout(function(){total=Math.max(0,total-N);start()},220);
+  });
+
+  if(document.fonts&&document.fonts.ready){document.fonts.ready.then(start)}else{start()}
+})();
+</script>
+</body>
+</html>
