@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Doug Lin 個人技術盤點：網站架設與維護、後台系統、手機 App、量化交易策略、AI 生成應用與嵌入式硬體的服務項目與作品實績。">
+<meta name="description" content="Doug Lin 個人技術盤點：網站架設與維護、後台系統、手機 App、量化交易策略、AI 生成應用與嵌入式硬體的服務項目、深度案例與作品實績。">
 <meta name="color-scheme" content="light">
 <meta property="og:type" content="profile">
 <meta property="og:title" content="Doug Lin 技術盤點">
-<meta property="og:description" content="Doug Lin 個人技術盤點：網站架設與維護、後台系統、手機 App、量化交易策略、AI 生成應用與嵌入式硬體的服務項目與作品實績。">
+<meta property="og:description" content="Doug Lin 個人技術盤點：網站架設與維護、後台系統、手機 App、量化交易策略、AI 生成應用與嵌入式硬體的服務項目、深度案例與作品實績。">
 <meta name="twitter:card" content="summary">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%88%3C/text%3E%3C/svg%3E">
 <title>Doug Lin 技術盤點</title>
@@ -176,7 +176,7 @@ html{scroll-behavior:smooth}
 .card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
 .card .ic{width:44px;height:44px;border-radius:9px;background:var(--blue-soft);display:grid;place-items:center;color:var(--blue)}
 .card .ic svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
-.card h3{font-size:18.5px;font-weight:900;letter-spacing:.05em;margin-top:18px}
+.card h3{font-size:18.5px;font-weight:900;letter-spacing:.05em;margin-top:18px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .card .lede{color:var(--ink-2);font-size:14px;margin-top:11px}
 .card .stack{display:flex;flex-wrap:wrap;gap:7px;margin:20px 0 0;padding:0;list-style:none}
 .card .stack li{font-family:var(--mono);font-size:11px;color:var(--ink-2);background:var(--ground);border:1px solid var(--line);border-radius:4px;padding:3px 9px}
@@ -185,6 +185,45 @@ html{scroll-behavior:smooth}
 .card .proof .n small{font-size:.42em;margin-left:3px}
 .card .proof p{font-size:12.5px;color:var(--ink-2);line-height:1.7;border-left:1px solid var(--line);padding-left:16px}
 .card .proof b{font-weight:700;color:var(--ink)}
+
+/* ============ 數字註解 ============ */
+.stats .sub{display:block;font-size:11.5px;color:var(--ink-3);margin-top:9px;line-height:1.7;max-width:19em;margin-left:auto;margin-right:auto}
+
+/* ============ 證據標記 ============ */
+.evi{font-size:10.5px;font-weight:700;letter-spacing:.08em;padding:2px 9px;border-radius:999px;white-space:nowrap}
+.evi.open{color:var(--blue);background:var(--blue-soft)}
+.evi.priv{color:var(--slate);background:#EEF1F5}
+.evi-key{
+  display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:16px;font-size:12.5px;color:var(--ink-2);
+}
+.evi-key span{display:inline-flex;align-items:center;gap:8px}
+
+/* ============ 深度案例 ============ */
+.cases{display:grid;gap:clamp(18px,2.2vw,26px)}
+.case{background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);overflow:hidden}
+.case>.hd{
+  padding:22px clamp(22px,2.6vw,30px);
+  background:linear-gradient(135deg,var(--navy) 0%,var(--navy-3) 100%);color:#fff;
+}
+.case>.hd .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:#9FC4E8}
+.case>.hd h3{font-size:clamp(17px,2vw,20px);font-weight:900;margin-top:9px;letter-spacing:.04em;line-height:1.5}
+.case dl{margin:0;display:grid;grid-template-columns:132px minmax(0,1fr)}
+.case dt{
+  padding:17px 0 17px clamp(22px,2.6vw,30px);font-size:13px;font-weight:900;
+  color:var(--navy);border-top:1px solid var(--line);
+}
+.case dd{
+  margin:0;padding:17px clamp(22px,2.6vw,30px) 17px 18px;font-size:13.5px;
+  color:var(--ink-2);line-height:1.9;border-top:1px solid var(--line);
+}
+.case dd b{font-weight:700;color:var(--ink)}
+.case dt.first,.case dd.first{border-top:0}
+@media (max-width:640px){
+  .case dl{grid-template-columns:1fr}
+  .case dt{padding:16px clamp(22px,2.6vw,30px) 0}
+  .case dd{padding:6px clamp(22px,2.6vw,30px) 18px;border-top:0}
+  .case dd.first{border-top:0}
+}
 
 /* ============ AI 自評表 ============ */
 .tbl-wrap{
@@ -301,6 +340,7 @@ footer .upd{width:100%;border-top:1px solid rgba(255,255,255,.12);padding-top:18
       <a href="#ai">AI 程度</a>
       <a href="#skill">專長領域</a>
       <a href="#service">服務項目</a>
+      <a href="#case">深度案例</a>
       <a href="#work">作品實績</a>
     </nav>
   </div>
@@ -322,6 +362,7 @@ footer .upd{width:100%;border-top:1px solid rgba(255,255,255,.12);padding-top:18
       <span>虛線 P5／P95 區間</span>
       <span class="s"><u></u>有 edge 的策略</span>
       <span>累計模擬 <b id="ct">0</b> 條</span>
+      <span style="color:#E3B341">示意圖：即時隨機模擬，非實盤績效</span>
     </div>
   </div>
 </section>
@@ -348,7 +389,7 @@ footer .upd{width:100%;border-top:1px solid rgba(255,255,255,.12);padding-top:18
       </div>
       <div class="body">
         <h3>橫跨<em>量化交易、全端開發、AI 與硬體</em>，一條產線自己從頭顧到尾</h3>
-        <p>日常同時維護正式環境的交易策略產線、四個社群系統產品的前後端，以及自己機器上跑得動的 AI 生成與語音管線。不只做出能 demo 的原型，而是做到有人每天在用、出事要自己救的程度。</p>
+        <p>現職軟體公司全端工程師，負責社群管理系統四個產品的前後端、API 與部署，同時維護正式環境的交易策略產線。不只做出能 demo 的原型，而是做到有人每天在用、出事要自己救的程度。公司專案不便公開程式碼，流程與判斷依據可面談說明。</p>
         <div class="pts">
           <div><b>證據優先</b><span>有原始碼就讀原始碼找根因，不靠黑箱測試歸納行為。</span></div>
           <div><b>窮盡再結論</b><span>說「做不出來」之前，必須有實測掃參的結果撐著。</span></div>
@@ -386,10 +427,10 @@ footer .upd{width:100%;border-top:1px solid rgba(255,255,255,.12);padding-top:18
 <section class="sec alt">
   <div class="wrap">
     <div class="stats">
-      <div><div class="n">94<u>支</u></div><div class="l">正式站上線策略</div></div>
-      <div><div class="n">87,996<u>次</u></div><div class="l">單一標的回測次數</div></div>
-      <div><div class="n">439<u>檔</u></div><div class="l">全市場實測標的</div></div>
-      <div><div class="n">79<u>個</u></div><div class="l">維護中程式庫</div></div>
+      <div><div class="n">94<u>支</u></div><div class="l">正式站上線策略</div><span class="sub">每支都通過同一組驗收：勝過同筆數隨機進場、勝過被動持有、扣掉成本後仍為正</span></div>
+      <div><div class="n">87,996<u>次</u></div><div class="l">單一標的回測次數</div><span class="sub">窮盡 111 個指標組合後的結論是「這條路走不通」—— 否定的結論，但有數據</span></div>
+      <div><div class="n">439<u>檔</u></div><div class="l">全市場實測標的</div><span class="sub">用來確認限制來自市場結構，而不是標的選錯</span></div>
+      <div><div class="n">79<u>個</u></div><div class="l">維護中程式庫</div><span class="sub">每日自動同步與檢查，不是手動逐一維護</span></div>
     </div>
   </div>
 </section>
@@ -399,13 +440,17 @@ footer .upd{width:100%;border-top:1px solid rgba(255,255,255,.12);padding-top:18
     <div class="sec-head">
       <div class="kicker">Capability</div>
       <h2>專長領域</h2>
-      <p>六個領域、各自有可查證的實績，不是履歷上的關鍵字列表。</p>
+      <p>六個領域、各自有對應的實績，不是履歷上的關鍵字列表。</p>
+      <div class="evi-key">
+        <span><span class="evi open">公開可查</span>有公開的程式碼或成品可以直接看</span>
+        <span><span class="evi priv">可面談佐證</span>公司專案不便公開，可於面談時說明流程與展示紀錄</span>
+      </div>
     </div>
     <div class="cards">
 
       <article class="card">
         <div class="ic"><svg viewBox="0 0 24 24"><path d="M3 17l5-6 4 4 5-8 4 5"/><path d="M3 21h18"/></svg></div>
-        <h3>量化交易策略研究</h3>
+        <h3>量化交易策略研究<span class="evi priv">可面談佐證</span></h3>
         <p class="lede">從訊號假設、回測、閘門驗收，到正式站上線與風險配權的完整產線。</p>
         <ul class="stack"><li>策略腳本 DSL</li><li>Python</li><li>Go</li><li>TradingView Pine</li><li>回測平台 API</li></ul>
         <div class="proof"><span class="n">94<small>支</small></span><p>策略在正式站運作，另有 <b>36</b> 支高勝率策略以風險平價配權組成加權組合。</p></div>
@@ -413,7 +458,7 @@ footer .upd{width:100%;border-top:1px solid rgba(255,255,255,.12);padding-top:18
 
       <article class="card">
         <div class="ic"><svg viewBox="0 0 24 24"><path d="M9 4l-5 8 5 8"/><path d="M15 4l5 8-5 8"/></svg></div>
-        <h3>回測引擎除錯與統計驗證</h3>
+        <h3>回測引擎除錯與統計驗證<span class="evi priv">可面談佐證</span></h3>
         <p class="lede">有原始碼就讀原始碼找根因；本地、測試站、正式站三方對帳。</p>
         <ul class="stack"><li>Rust ／ Go 原始碼</li><li>序列模擬</li><li>隨機進場基準線</li><li>選擇偏差校正</li></ul>
         <div class="proof"><span class="n">18<small>支</small></span><p>策略受害於同一個引擎 bug — 60 分鐘週期被靜默退回日線資料，由原始碼比對揪出。</p></div>
@@ -421,7 +466,7 @@ footer .upd{width:100%;border-top:1px solid rgba(255,255,255,.12);padding-top:18
 
       <article class="card">
         <div class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
-        <h3>全端網站與行動 App</h3>
+        <h3>全端網站與行動 App<span class="evi open">公開可查</span></h3>
         <p class="lede">社群管理與餐飲系統的前端、後端 API、排程服務到 App 上架，一條線自己顧。</p>
         <ul class="stack"><li>AngularJS</li><li>Angular 8</li><li>React 19</li><li>ASP.NET Core</li><li>EF Core</li><li>Cordova</li></ul>
         <div class="proof"><span class="n">11<small>個</small></span><p>長期維護的產品：<b>4</b> 個 Web、<b>3</b> 個雙平台 App、<b>4</b> 組 API 與排程，含三語系在地化。</p></div>
@@ -429,7 +474,7 @@ footer .upd{width:100%;border-top:1px solid rgba(255,255,255,.12);padding-top:18
 
       <article class="card">
         <div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2.2 2.2M16.8 16.8L19 19M19 5l-2.2 2.2M7.2 16.8L5 19"/></svg></div>
-        <h3>AI 與生成式應用</h3>
+        <h3>AI 與生成式應用<span class="evi open">公開可查</span></h3>
         <p class="lede">挑能在自己機器上跑得動、而且交得出成品的那一段。每次調整都用固定題目重跑一輪比分數，不靠印象判斷好壞。</p>
         <ul class="stack"><li>SDXL ／ ComfyUI</li><li>LoRA 訓練</li><li>GPT-SoVITS</li><li>LLM Agent</li><li>評測與基準線</li></ul>
         <div class="proof"><span class="n">3<small>條</small></span><p>本機跑通的生成管線：角色一致插畫、台灣腔語音合成、語音助理雙向串流；調參一律跑固定題目組比分，不收「看起來比較好」當結論。</p></div>
@@ -437,7 +482,7 @@ footer .upd{width:100%;border-top:1px solid rgba(255,255,255,.12);padding-top:18
 
       <article class="card">
         <div class="ic"><svg viewBox="0 0 24 24"><rect x="7" y="7" width="10" height="10" rx="1.5"/><path d="M10 3v4M14 3v4M10 17v4M14 17v4M3 10h4M3 14h4M17 10h4M17 14h4"/></svg></div>
-        <h3>嵌入式硬體</h3>
+        <h3>嵌入式硬體<span class="evi priv">可面談佐證</span></h3>
         <p class="lede">從麵包板接線、音訊輸出到無線燒錄與手機設定頁，做成能拿在手上的東西。</p>
         <ul class="stack"><li>ESP32</li><li>PlatformIO</li><li>I2S 音訊</li><li>NFC 讀卡</li><li>OTA 更新</li></ul>
         <div class="proof"><span class="n">5/5</span><p>人臉辨識打卡實機活體檢測全數通過，相似度 <b>0.80</b> 以上；故事音樂盒已可無線更新。</p></div>
@@ -445,7 +490,7 @@ footer .upd{width:100%;border-top:1px solid rgba(255,255,255,.12);padding-top:18
 
       <article class="card">
         <div class="ic"><svg viewBox="0 0 24 24"><path d="M6.5 18A4.5 4.5 0 015.6 9a6 6 0 0111.6-1.4A4 4 0 0118 18z"/><path d="M12 12v5M9.6 14.2L12 11.8l2.4 2.4"/></svg></div>
-        <h3>DevOps 與雲端</h3>
+        <h3>DevOps 與雲端<span class="evi priv">可面談佐證</span></h3>
         <p class="lede">容器編排、CI/CD、自架 Runner 到正式機部署腳本，開發到上線的管線自己架。</p>
         <ul class="stack"><li>Docker Compose</li><li>GitLab CI/CD</li><li>GCP ／ k8s</li><li>PostgreSQL</li><li>InfluxDB</li></ul>
         <div class="proof"><span class="n">79<small>個</small></span><p>程式庫每日自動同步；自架 GitLab Runner 與正式環境一鍵部署流程。</p></div>
@@ -489,6 +534,46 @@ footer .upd{width:100%;border-top:1px solid rgba(255,255,255,.12);padding-top:18
     <div class="svc-note">
       <div><b>做完交出去不是結束。</b>網站上線之後才是真正會出事的開始 —— 突然連不上、速度變慢、資料不見、被攻擊。
       這些我能直接進主機查原因、當下處理，不是只會說「這要問主機商」。</div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="case">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">Case Studies</div>
+      <h2>深度案例</h2>
+      <p>兩個完整的除錯與設計過程：怎麼定位、排除了什麼、取捨在哪、最後怎麼驗證。公司專案不便公開程式碼，以下說明流程與判斷依據，細節可面談。</p>
+    </div>
+    <div class="cases">
+      <article class="case">
+        <div class="hd">
+          <div class="k">Case 01 ／ 事故處理</div>
+          <h3>一批策略的分數對不上，但系統完全沒有報錯</h3>
+        </div>
+        <dl>
+          <dt class="first">現象</dt><dd class="first">平台上算出來的分數與本機跑的結果對不上。流程全程沒有任何錯誤訊息，紀錄看起來一切正常，所以沒有人發現。</dd>
+          <dt>假設與排除</dt><dd>先懷疑兩邊資料來源不同步 —— 比對後時間範圍與筆數一致，排除。再懷疑評分設定被改過 —— 查設定異動紀錄，排除。再懷疑快取 —— 清掉重跑，結果不變。</dd>
+          <dt>根因</dt><dd>系統送給回測引擎的時間週期參數，引擎的對照表裡沒有這個寫法。引擎沒有拒絕，而是<b>安靜地退回日線資料</b>繼續跑，所以整批策略都跑在錯誤的 K 線上，分數自然對不上。</dd>
+          <dt>取捨</dt><dd>可以繼續從外部行為反推，但「安靜失效」沒有任何可觀察的訊號，反推會一直猜。改成直接讀引擎原始碼比對參數對照表 —— 前期較慢，但能一次確定根因，不是再猜一輪。</dd>
+          <dt>驗證</dt><dd>修正參數寫法後重跑，分數與本機一致；接著回頭掃描全部策略，量化出受影響範圍為 <b>18 支</b>。</dd>
+          <dt>我做了什麼</dt><dd>定位根因、量化影響範圍、修正參數對應，並加入本地／測試站／正式站<b>三方對帳</b>：三邊數值不一致就中止流程，讓同類型的安靜失效不可能再無聲通過。</dd>
+        </dl>
+      </article>
+      <article class="case">
+        <div class="hd">
+          <div class="k">Case 02 ／ 設計與可靠性</div>
+          <h3>只有「第一次啟動」會壞的版面問題</h3>
+        </div>
+        <dl>
+          <dt class="first">現象</dt><dd class="first">Android 15 上，App 第一次安裝後啟動，頁首選單被系統狀態列蓋住。關掉重開就正常，所以在測試環境幾乎重現不出來。</dd>
+          <dt>假設與排除</dt><dd>先試純 CSS 的安全區變數 —— 不同機型行為不一致，無效。再試在原生端直接設定邊距 —— 版面會跳動，而且蓋不住所有情境。懷疑是時序問題，但當下沒有任何直接證據。</dd>
+          <dt>根因</dt><dd>改用瀏覽器除錯協定直接檢查畫面結構，看到整頁重新載入會<b>清掉先前注入的設定值</b>，而補回去的動作是非同步的，中間存在一段空窗期。空窗期用的預設值是 0，所以那一瞬間內容就被系統列蓋住了。</dd>
+          <dt>取捨</dt><dd>純 CSS 做不到跨機型一致，原生直接設邊距又會讓版面跳動。最後選擇<b>原生量測安全區再注入設定值</b>：實作較複雜，但同時支援不同機型與瀏覽器版本。預設值也從 0 改成保守的非零值，讓空窗期本身就不會出事。</dd>
+          <dt>驗證</dt><dd>在模擬器重現「全新安裝後首次啟動」情境確認修復，並回歸測試既有機型與其他使用同一套前端的產品。</dd>
+          <dt>我做了什麼</dt><dd>用除錯協定定位時序問題、設計原生量測與注入方式、調整注入時機與預設值，並確認共用同一套前端的其他產品不受影響。</dd>
+        </dl>
+      </article>
     </div>
   </div>
 </section>
